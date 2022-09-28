@@ -1,0 +1,47 @@
+.modelcontainer{
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.scene{
+  width: 100vw;
+  height: 100vw;
+  max-width: 75vh;
+  max-height: 75vh;
+}
+.scene canvas {
+  width: 100%;
+  height: 100%;
+}
+.container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.filtercontainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 10px;
+
+}
+.checkboxwithlabel{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ion-checkbox{
+    margin-right: 10px;
+  }
+}
+
+.offsetcontainer{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0px 10px;
+}
+
+.lowpassfilter{
+  visibility: hidden;
+}

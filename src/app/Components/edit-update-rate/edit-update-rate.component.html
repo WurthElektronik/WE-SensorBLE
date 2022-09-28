@@ -1,0 +1,14 @@
+<div class="inner-content">
+  <h1>{{ 'EditUpdateRate.header' | translate }}</h1>
+  <ion-input [(ngModel)]="updaterate" placeholder="{{ 'EditUpdateRate.updaterateplaceholder' | translate }}" type="number" clearInput [min]="minupdateinterval" step="1" (keypress)="validateNo($event)"></ion-input>
+  <ion-grid>
+    <ion-row class="ion-text-center ion-align-items-center" >
+      <ion-col>
+        <ion-button (click)="cancel()">{{ 'EditUpdateRate.cancel' | translate }}</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="edit()">{{ 'EditUpdateRate.edit' | translate }}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

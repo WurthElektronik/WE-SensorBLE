@@ -1,0 +1,7 @@
+{
+  "name": "WE Sensor FeatherWing",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

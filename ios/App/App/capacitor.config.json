@@ -1,0 +1,6 @@
+{
+	"appId": "com.eisos.wesensorble",
+	"appName": "WE-SensorBLE",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

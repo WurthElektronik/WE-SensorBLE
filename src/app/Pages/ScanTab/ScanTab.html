@@ -1,0 +1,58 @@
+<ion-header [translucent]="false">
+  <ion-toolbar color="primary">
+    <ion-title>
+      {{ 'ScanTab.tabname' | translate }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" [disabled]="scanning == true">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row class="ion-text-center ion-align-items-center scanheader">
+      <ion-col style="font-weight:bolder;">
+        Sensor FeatherWings
+      </ion-col>
+      <ion-col (click) ="scanclick()">
+        <ion-button fill="clear">{{'ScanTab.' + scantext | translate}}</ion-button>
+        <div *ngIf="scanning">
+          <ion-spinner name="crescent" color="primary" class="block"></ion-spinner>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- App Section -->
+  <ng-container *ngIf="this.platform.is('desktop') == false">
+    <ion-list *ngIf="scanresults.length != 0">
+      <ion-item *ngFor="let result of scanresults" (click)="scanitemclick(result)">
+            <ion-label>
+              <ion-label style="font-weight:bold;">{{result.localName || '-'}}</ion-label>
+              <ion-label color="medium" class="deviceid">{{result.device.deviceId}}</ion-label>
+            </ion-label>
+            <ion-label class="itemwrapnogrow ion-text-end">
+              <ion-icon class="barsredcolor" size="small" *ngIf="result.rssi > -60" src="assets/ic_signal/ic_signal_full.svg"></ion-icon>
+              <ion-icon class="barsredcolor" size="small" *ngIf="result.rssi > -70 && result.rssi <= -60" src="assets/ic_signal/ic_signal_3.svg"></ion-icon>
+              <ion-icon class="barsredcolor" size="small" *ngIf="result.rssi > -80 && result.rssi <= -70" src="assets/ic_signal/ic_signal_2.svg"></ion-icon>
+              <ion-icon class="barsredcolor" size="small" *ngIf="result.rssi <= -80" src="assets/ic_signal/ic_signal_1.svg"></ion-icon>
+              <ion-label color="medium">{{result.rssi}}</ion-label>
+            </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <!-- PWA Section -->
+  <ng-container *ngIf="this.platform.is('desktop') == true">
+    <ion-list *ngIf="this.paireddevice != undefined">
+      <ion-item (click)="paireddeviceclick(this.paireddevice)">
+            <ion-label>
+              <ion-label style="font-weight:bold;">{{this.paireddevice.name || '-'}}</ion-label>
+              <ion-label color="medium" class="deviceid">{{this.paireddevice.deviceId}}</ion-label>
+            </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+</ion-content>

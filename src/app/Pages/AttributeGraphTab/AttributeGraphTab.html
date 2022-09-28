@@ -1,0 +1,20 @@
+<ion-header [translucent]="false">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/featherwing" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{ 'AttributeGraphTab.tabname' | translate }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding-top" [fullscreen]="true">
+  <div class="flexholder">
+    <ion-label class="sensorname ion-margin-start" >{{attribute.getParentsensor().getSensorName()}} {{'SensorAttributes.' + attribute.getAttributeName()| translate}}</ion-label>
+    <div class="chartholder">
+      <canvas #chart></canvas>
+    </div>
+  </div>
+</ion-content>

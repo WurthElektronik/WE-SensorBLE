@@ -1,0 +1,12 @@
+.sensorname{
+    font-weight:bolder;
+    font-size: 30px;
+}
+.chartholder{
+    flex-grow: 1;
+}
+.flexholder{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

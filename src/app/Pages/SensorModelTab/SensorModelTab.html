@@ -1,0 +1,34 @@
+<ion-header [translucent]="false">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/featherwing" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{ 'SensorModelTab.tabname' | translate }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="filtercontainer">
+      <ion-label [ngClass]="{'lowpassfilter' : !lowpassfilter}">Alpha</ion-label>
+      <ion-range [ngClass]="{'lowpassfilter' : !lowpassfilter}" [(ngModel)]="accelalpha" ></ion-range>
+      <span (click)="lowpassfilter = !lowpassfilter" class="checkboxwithlabel">
+        <ion-checkbox [checked]="lowpassfilter"></ion-checkbox>
+        <ion-label>{{ 'SensorModelTab.lowpassfilter' | translate }}</ion-label>
+      </span>
+    </div>
+    <div class="offsetcontainer">
+      <span (click)="offset = !offset" class="checkboxwithlabel">
+        <ion-checkbox [checked]="offset"></ion-checkbox>
+        <ion-label>{{ 'SensorModelTab.offset' | translate }}</ion-label>
+      </span>
+    </div>
+    <div class="modelcontainer">
+      <div class="scene">
+        <canvas #model></canvas>
+      </div>
+    </div>
+  </div>
+</ion-content>

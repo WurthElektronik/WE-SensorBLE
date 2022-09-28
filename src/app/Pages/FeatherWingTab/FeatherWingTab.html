@@ -1,0 +1,51 @@
+<ion-header [translucent]="false">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click) = "disconnectclick()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      FeatherWing
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list>
+    <ng-container *ngFor="let sensor of this.ble.sensors">
+      <ion-list-header>
+        <div class="seperateitems">
+          <ion-label class="sensorname">
+            {{sensor.getSensorName()}}
+          </ion-label>
+          <ion-button  (click)="showmodel(sensor)" *ngIf="sensor['getModel']">
+            {{ 'FeatherWingTab.showmodel' | translate }}
+          </ion-button>
+        </div>
+        <div class="seperateitems" *ngIf="sensor.getUpdateInterval() != undefined">
+          <ion-label color="medium" class="updateintervalabel">
+            {{ 'FeatherWingTab.sensorupdateinterval' | translate }} : {{sensor.getUpdateInterval() / 1000}} s
+          </ion-label>
+          <ion-button  (click)="editinterval(sensor)">
+            {{ 'FeatherWingTab.editupdateinterval' | translate }}
+          </ion-button>
+        </div>
+      </ion-list-header>
+      <ion-item class="ion-margin-start no-ripple" *ngFor="let attribute of sensor.getAttributes()" (click)="attributeclick(attribute)" >
+        <ion-label>
+          <span class="attrname">{{'SensorAttributes.' + attribute.getAttributeName() | translate}}</span>
+          <ion-icon class="attrgraphicon" *ngIf="attribute.isEvent() == false" name="chevron-forward-outline"></ion-icon>
+        </ion-label>
+        <ion-label *ngIf="attribute.isEvent() == false" class="itemwrapnogrow" [innerText]="attribute.getCurrentAttributeString()">
+        </ion-label>
+        <ion-radio-group *ngIf="attribute.isEvent() == true" class="itemwrapnogrow" style="pointer-events: none;" [value]="attribute.getCurrentValue().getData()">
+          <ion-radio [value]="true">
+          </ion-radio>
+        </ion-radio-group>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+</ion-content>

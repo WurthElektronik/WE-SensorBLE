@@ -1,0 +1,35 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    
+    <ng-container [ngSwitch]="maintab">
+        <ion-tab-button *ngSwitchCase="'scan'" tab="scan">
+          <ion-icon name="search-outline"></ion-icon>
+          <ion-label>{{ 'Tabs.scan' | translate }}</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button *ngSwitchCase="'featherwing'" tab="featherwing">
+          <ion-icon name="options-outline"></ion-icon>
+          <ion-label>FeatherWing</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button *ngSwitchCase="'attributegraph'" tab="attributegraph">
+          <ion-icon name="options-outline"></ion-icon>
+          <ion-label>FeatherWing</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button *ngSwitchCase="'sensormodel'" tab="sensormodel">
+          <ion-icon name="options-outline"></ion-icon>
+          <ion-label>FeatherWing</ion-label>
+        </ion-tab-button>
+
+    </ng-container>
+
+    <ion-tab-button tab="info">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <ion-label>{{ 'Tabs.info' | translate }}</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-tabs>
