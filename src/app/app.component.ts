@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StatusBar } from '@capacitor/status-bar';
+import { StatusBar,Style } from '@capacitor/status-bar';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,6 +31,8 @@ export class AppComponent {
     }).catch((error) => {
 
     });
+    StatusBar.setStyle({ style: Style.Dark });
+
     let firsttime =  await Preferences.get({ key: 'firsttime' });
     if(firsttime.value == null){
       this.router.navigate(

@@ -52,6 +52,7 @@ export class BleService {
       await BleClient.requestLEScan(
       {
         services:[PROTEUS_BLE_SERVICE],
+        namePrefix: "W-"
       },
       (result) => {
         callback(result);

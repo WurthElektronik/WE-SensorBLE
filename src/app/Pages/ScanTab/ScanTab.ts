@@ -49,7 +49,7 @@ export class ScanTab {
       })
     }else{
       this.ble.startscan((result) => {
-        if(this.ble.checkmanufacturerdata(result.manufacturerData["794"])){
+        if((result.manufacturerData == undefined) || this.ble.checkmanufacturerdata(result.manufacturerData["794"])){
           this.ngZone.run(() => {
             this.scanresults.push(result);
           });
