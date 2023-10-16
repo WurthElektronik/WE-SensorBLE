@@ -36,12 +36,12 @@ export class BleService {
     this.itdssensor = new ITDS();
     this.tidssensor = new TIDS();
     this.hidssensor = new HIDS();
-    this.sensors = [ this.padssensor,this.itdssensor,this.tidssensor,this.hidssensor];
+    this.sensors = [];
   }
 
   async initializeble(){
     try {
-      await BleClient.initialize();
+      await BleClient.initialize({ androidNeverForLocation: true });
     } catch (error) {
       console.error(error);
     }
@@ -100,6 +100,7 @@ export class BleService {
       this.sensors.forEach(sensor => {
         sensor.clearData();
       });
+      this.sensors = [];
       this.connected = false;
       this.onDeviceDisconnected.next();
     });
@@ -116,6 +117,7 @@ export class BleService {
     this.sensors.forEach(sensor => {
       sensor.clearData();
     });
+    this.sensors = [];
     this.connected = false;
   }
 
@@ -164,15 +166,19 @@ export class BleService {
         case 1:
           switch(packetsensortype){
             case SensorType.PADS:
+              this.sensors.push(this.padssensor);
               this.padssensor.parseupdateinterval(value,byteidx+3);
               break;
             case SensorType.ITDS:
+              this.sensors.push(this.itdssensor);
               this.itdssensor.parseupdateinterval(value,byteidx+3);              
               break;
             case SensorType.TIDS:
+              this.sensors.push(this.tidssensor);
               this.tidssensor.parseupdateinterval(value,byteidx+3);              
               break;
             case SensorType.HIDS:
+              this.sensors.push(this.hidssensor);
               this.hidssensor.parseupdateinterval(value,byteidx+3);
               break;
           }

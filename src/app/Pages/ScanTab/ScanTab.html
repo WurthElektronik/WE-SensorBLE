@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" [disabled]="scanning == true">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>

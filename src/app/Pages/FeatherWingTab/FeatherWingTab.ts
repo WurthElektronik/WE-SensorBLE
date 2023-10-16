@@ -46,7 +46,22 @@ export class FeatherWingTab {
             );
           });
         } catch (error) {
-          
+          let loading = await this.loadingCtrl.getTop();
+          if (loading)
+            this.loadingCtrl.dismiss();
+          this.disconnectsubscription  && this.disconnectsubscription.unsubscribe();
+          this.translateService.get('FeatherWingTab.devicedisconnected').subscribe(async (res: string) => {
+            const toast = await this.toastController.create({
+              message: res,
+              duration: 500,
+              position: 'middle',
+              cssClass: 'toastwidth'
+            });
+            toast.present();
+          });
+          this.router.navigate(
+            ['/tabs/scan']
+          );
         }
       }
     });

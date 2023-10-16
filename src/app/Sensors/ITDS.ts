@@ -20,7 +20,7 @@ export class ITDS extends GeneralSensor implements SensorModelInterface{
     
     constructor(){
         super();
-        this.attributes = [new Acceleration(this), new Temperature(this),new DoubleTap(this),new FreeFall(this)];
+        this.attributes = [new Acceleration(this),new DoubleTap(this),new FreeFall(this)];
         // accelerationdata.forEach(accel => {
         //     this.attributes[0].addValue(new AttributeValue(accel.timestamp,new AccelerationPoint(accel.data.x,accel.data.y,accel.data.z)));
         // });  
@@ -38,17 +38,13 @@ export class ITDS extends GeneralSensor implements SensorModelInterface{
     getAccelerationAttribute(): Attribute {
         return this.attributes[0];
     }
-
-    getTemperatureAttribute(): Attribute {
-        return this.attributes[1];
-    }
     
     getDoubleTapAttribute(): Attribute {
-        return this.attributes[2];
+        return this.attributes[1];
     }
 
     getFreeFallAttribute(): Attribute {
-        return this.attributes[3];
+        return this.attributes[2];
     }
 
     getSensorName(): string {
@@ -59,7 +55,6 @@ export class ITDS extends GeneralSensor implements SensorModelInterface{
         let timestamp:number = Date.now();
         let newaccelpoint:AccelerationPoint = new AccelerationPoint(itdsdata.getInt32(offset,true)/1000.0,itdsdata.getInt32(offset+4,true)/1000.0,itdsdata.getInt32(offset+8,true)/1000.0);
         this.getAccelerationAttribute().addValue(new AttributeValue(timestamp,newaccelpoint));
-        this.getTemperatureAttribute().addValue(new AttributeValue(timestamp,itdsdata.getInt32(offset+12,true)/100.0));
     }
 
     parsedoubletap(){
