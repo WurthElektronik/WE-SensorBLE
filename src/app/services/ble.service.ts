@@ -29,6 +29,7 @@ export class BleService {
   
   public onDataReceived: Subject<any> = new Subject<any>();
   public onDeviceDisconnected: Subject<any> = new Subject<any>();
+  public onSensorAdded: Subject<GeneralSensor> = new Subject<GeneralSensor>();
 
 
   constructor() {
@@ -166,19 +167,31 @@ export class BleService {
         case 1:
           switch(packetsensortype){
             case SensorType.PADS:
-              this.sensors.push(this.padssensor);
+              if(!this.sensors.includes(this.padssensor)){
+                this.sensors.push(this.padssensor);
+                this.onSensorAdded.next(this.padssensor);
+              }
               this.padssensor.parseupdateinterval(value,byteidx+3);
               break;
             case SensorType.ITDS:
-              this.sensors.push(this.itdssensor);
+              if(!this.sensors.includes(this.itdssensor)){
+                this.sensors.push(this.itdssensor);
+                this.onSensorAdded.next(this.itdssensor);
+              }
               this.itdssensor.parseupdateinterval(value,byteidx+3);              
               break;
             case SensorType.TIDS:
-              this.sensors.push(this.tidssensor);
+              if(!this.sensors.includes(this.tidssensor)){
+                this.sensors.push(this.tidssensor);
+                this.onSensorAdded.next(this.tidssensor);
+              }
               this.tidssensor.parseupdateinterval(value,byteidx+3);              
               break;
             case SensorType.HIDS:
-              this.sensors.push(this.hidssensor);
+              if(!this.sensors.includes(this.hidssensor)){
+                this.sensors.push(this.hidssensor);
+                this.onSensorAdded.next(this.hidssensor);
+              }
               this.hidssensor.parseupdateinterval(value,byteidx+3);
               break;
           }

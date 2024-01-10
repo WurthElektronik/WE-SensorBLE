@@ -7,6 +7,11 @@ import { Attribute } from 'src/app/Attributes/Attribute';
 import { EditUpdateRateComponent } from 'src/app/Components/edit-update-rate/edit-update-rate.component';
 import { GeneralSensor } from 'src/app/Sensors/GeneralSensor';
 import { BleService } from '../../Services/ble.service';
+import { ThresholdType } from 'src/app/Attributes/ThresholdType';
+import { AttributeValue } from 'src/app/Attributes/AttributeValue';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { AttributeType } from 'src/app/Attributes/AttributeType';
+import { AddThresholdComponent } from 'src/app/Components/add-threshold/add-threshold.component';
 
 @Component({
   selector: 'app-featherwing',
@@ -18,6 +23,8 @@ export class FeatherWingTab {
   private attrssubscriptions: Subscription[];
   private disconnectsubscription: Subscription;
   constructor(private route: ActivatedRoute,public platform: Platform, private router: Router,public ble:BleService,private ngZone: NgZone,private modalCtrl: ModalController,private loadingCtrl: LoadingController,private toastController: ToastController,private translateService: TranslateService) {}
+  
+  ThresholdType = ThresholdType;
 
   async ngOnInit() {
     this.route.queryParamMap
@@ -75,15 +82,43 @@ export class FeatherWingTab {
         this.loadingCtrl.dismiss();
       this.ngZone.run(() => {}); // needed to make sure changes are reflected in the UI
     }));
-    this.ble.sensors.forEach(sensor => {
+    this.attrssubscriptions.push(this.ble.onSensorAdded.subscribe(async (sensor) => {
       sensor.getAttributes().forEach(attribute => {
+        this.attrssubscriptions.push(attribute.onThresholdExceeded.subscribe(async (thresholdType) => {
+          this.translateService.get([
+            'SensorAttributes.' + attribute.getAttributeName(),
+            'FeatherWingTab.ThresholdTypes.' + ThresholdType[thresholdType]
+          ]).subscribe(async (res) => {
+            this.translateService.get([
+              'Notifications.ThresholdExceeded',
+              'Notifications.ThresholdInfo'
+            ], 
+            {
+              'attributeName': res['SensorAttributes.' + attribute.getAttributeName()],
+              'sensorName': attribute.getParentsensor().getSensorName(),
+              'thresholdType': res['FeatherWingTab.ThresholdTypes.' + ThresholdType[thresholdType]]
+            }).subscribe(async (res) => 
+            {
+              let notificationID = (attribute.getParentsensor().getType() * 100) + attribute.getAttributeType() * 10 + thresholdType;
+              let deliveredNotifications = (await LocalNotifications.getDeliveredNotifications()).notifications;
+              if(deliveredNotifications.find(e=> e.id == notificationID) == undefined){
+                LocalNotifications.schedule({
+                  notifications:[{
+                    title: res['Notifications.ThresholdExceeded'],
+                    body: res['Notifications.ThresholdInfo'],
+                    id: notificationID
+                  }]});
+              }
+          });
+          });
+        }));
         if(attribute.isEvent()){
           this.attrssubscriptions.push(attribute.onDataReceived.subscribe(() => {
             this.ngZone.run(() => {}); // needed to make sure changes are reflected in the UI
           }));
         }
       });
-    });
+    }));
   }
 
   ionViewWillLeave() {
@@ -143,6 +178,21 @@ export class FeatherWingTab {
         }
       }
     );
+  }
+
+  async addThreshold(attribute: Attribute){
+    const modal = await this.modalCtrl.create({
+      component: AddThresholdComponent,
+    });
+    modal.cssClass = 'auto-height';
+    modal.animated = false;
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      attribute.setThreshold(data.thresholdType, new AttributeValue(0, data.thresholdValue));
+    }
   }
 
 }

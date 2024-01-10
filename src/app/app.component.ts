@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { TranslateService } from '@ngx-translate/core';
 import { Globalization } from '@awesome-cordova-plugins/globalization/ngx';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-root',
@@ -43,5 +44,7 @@ export class AppComponent {
         ['/tabs/scan']
       );
     }
+
+    await LocalNotifications.requestPermissions();
   }
 }

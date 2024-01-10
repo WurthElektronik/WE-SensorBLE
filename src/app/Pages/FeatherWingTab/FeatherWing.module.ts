@@ -12,6 +12,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 import { FeatherWingRoutingModule } from './FeatherWing-routing.module';
 import { EditUpdateRateComponent } from 'src/app/Components/edit-update-rate/edit-update-rate.component';
+import { AddThresholdComponent } from 'src/app/Components/add-threshold/add-threshold.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,6 @@ import { EditUpdateRateComponent } from 'src/app/Components/edit-update-rate/edi
       }
     })
   ],
-  declarations: [FeatherWingTab, EditUpdateRateComponent]
+  declarations: [FeatherWingTab, EditUpdateRateComponent, AddThresholdComponent]
 })
 export class FeatherWingTabModule {}

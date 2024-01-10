@@ -4,5 +4,4 @@ import { SensorModel } from "./SensorModel";
 export interface SensorModelInterface {
     createModel();
     getModel():SensorModel;
-    getAccelerationAttribute():Attribute;
 }

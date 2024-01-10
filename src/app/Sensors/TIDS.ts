@@ -3,6 +3,7 @@ import { Temperature } from "../Attributes/Temparature";
 import { SensorType } from "./SensorType";
 import { Attribute } from "../Attributes/Attribute";
 import { AttributeValue } from "../Attributes/AttributeValue";
+import { AttributeType } from "../Attributes/AttributeType";
 // import temperaturedata from 'recordeddata/tidstemperature.json';
 
 export class TIDS extends GeneralSensor{
@@ -11,7 +12,9 @@ export class TIDS extends GeneralSensor{
     
     constructor(){
         super();
-        this.attributes = [new Temperature(this)];
+        this.attributes = new Map<AttributeType, Attribute>([
+            [AttributeType.Temperature, new Temperature(this)],
+        ]);
         // temperaturedata.forEach(temp => {
         //     this.attributes[0].addValue(new AttributeValue(temp.timestamp,temp.data));
         // });
@@ -21,17 +24,13 @@ export class TIDS extends GeneralSensor{
         return SensorType.TIDS;
     }
 
-    getTemperatureAttribute(): Attribute {
-        return this.attributes[0];
-    }
-
     getSensorName(): string {
         return "TIDS";
     }
 
     parsedata(tidsdata:DataView,offset:number){
         let timestamp:number = Date.now();
-        this.getTemperatureAttribute().addValue(new AttributeValue(timestamp,tidsdata.getInt32(offset,true)/100.0));
+        this.getAttribute(AttributeType.Temperature).addValue(new AttributeValue(timestamp,tidsdata.getInt32(offset,true)/100.0));
       }
     
 }

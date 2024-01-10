@@ -1,5 +1,7 @@
 import { Attribute } from "./Attribute";
 import { AttributeType } from "./AttributeType";
+import { AttributeValue } from "./AttributeValue";
+import { ThresholdType } from "./ThresholdType";
 
 export class Humidity extends Attribute{
     isEvent(): Boolean {
@@ -9,14 +11,12 @@ export class Humidity extends Attribute{
     getAttributeName(): string {
         return "Humidity";
     }
-    getCurrentAttributeString(): string {
-        if(this.values.length == 0){
-            return "";
-        }
-        return (<number>this.values[this.values.length - 1].getData()).toFixed(2) + " %";
-    }
+
     getAttributeType(): AttributeType {
         return AttributeType.Humidity;
     }
 
+    getAttributeValueString(attributeValue: AttributeValue): string {
+        return (<number>attributeValue.getData()).toFixed(2) + " %";
+    }
 }

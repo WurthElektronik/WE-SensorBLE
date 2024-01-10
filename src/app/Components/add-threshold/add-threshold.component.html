@@ -1,0 +1,18 @@
+<div class="inner-content">
+  <h1>{{ 'AddThreshold.header' | translate }}</h1>
+  <ion-select interface="action-sheet" value="{{thresholds[selectedThresholdType]}}" (ionChange)="thresholdTypeChanged($event)">
+    <ion-select-option value="LowerThreshold">{{ 'FeatherWingTab.ThresholdTypes.LowerThreshold' | translate }}</ion-select-option>
+    <ion-select-option value="UpperThreshold">{{ 'FeatherWingTab.ThresholdTypes.UpperThreshold' | translate }}</ion-select-option>
+  </ion-select>
+  <ion-input [(ngModel)]="threshold" placeholder="{{ 'AddThreshold.thresholdplaceholder' | translate }}" type="number" clearInput step="1" (keypress)="validateNo($event)"></ion-input>
+  <ion-grid>
+    <ion-row class="ion-text-center ion-align-items-center" >
+      <ion-col>
+        <ion-button (click)="cancel()">{{ 'AddThreshold.cancel' | translate }}</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="setThreshold()">{{ 'AddThreshold.add' | translate }}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

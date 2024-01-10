@@ -4,6 +4,7 @@ import { Temperature } from "../Attributes/Temparature";
 import { SensorType } from "./SensorType";
 import { Attribute } from "../Attributes/Attribute";
 import { AttributeValue } from "../Attributes/AttributeValue";
+import { AttributeType } from "../Attributes/AttributeType";
 // import pressuredata from 'recordeddata/padspressure.json';
 // import temperaturedata from 'recordeddata/padstemperature.json';
 
@@ -13,7 +14,10 @@ export class PADS extends GeneralSensor{
     
     constructor(){
         super();
-        this.attributes = [new Pressure(this),new Temperature(this)];
+        this.attributes = new Map<AttributeType, Attribute>([
+            [AttributeType.Pressure, new Pressure(this)],
+            [AttributeType.Temperature, new Temperature(this)],
+        ]);
         // pressuredata.forEach(press => {
         //     this.attributes[0].addValue(new AttributeValue(press.timestamp,press.data));
         // });  
@@ -26,22 +30,14 @@ export class PADS extends GeneralSensor{
         return SensorType.PADS;
     }
 
-    getPressureAttribute(): Attribute {
-        return this.attributes[0];
-    }
-
-    getTemperatureAttribute(): Attribute {
-        return this.attributes[1];
-    }
-
     getSensorName(): string {
         return "PADS";
     }
 
     parsedata(padsdata:DataView,offset:number){
         let timestamp:number = Date.now();
-        this.getPressureAttribute().addValue(new AttributeValue(timestamp,padsdata.getInt32(offset,true)/100.0));
-        this.getTemperatureAttribute().addValue(new AttributeValue(timestamp,padsdata.getInt32(offset+4,true)/100.0));
+        this.getAttribute(AttributeType.Pressure).addValue(new AttributeValue(timestamp,padsdata.getInt32(offset,true)/100.0));
+        this.getAttribute(AttributeType.Temperature).addValue(new AttributeValue(timestamp,padsdata.getInt32(offset+4,true)/100.0));
       }
     
 }

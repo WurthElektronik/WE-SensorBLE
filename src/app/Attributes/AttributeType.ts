@@ -1,7 +1,9 @@
 export enum AttributeType {
     Temperature,
     Pressure,
-    Acceleration,
+    AccelerationX,
+    AccelerationY,
+    AccelerationZ,
     Humidity,
     DoubleTap,
     FreeFall

@@ -1,8 +1,9 @@
 import { Attribute } from "../Attributes/Attribute";
+import { AttributeType } from "../Attributes/AttributeType";
 import { SensorType } from "./SensorType";
 
 export abstract class GeneralSensor{
-    protected attributes:Attribute[];
+    protected attributes:Map<AttributeType, Attribute>;
     protected updateinterval:number;
     protected abstract minupdateinterval:number;
     protected abstract tempaccuracy:number;
@@ -10,8 +11,12 @@ export abstract class GeneralSensor{
 
     }
 
-    getAttributes():Attribute[] {
+    getAttributes():Map<AttributeType, Attribute> {
         return this.attributes;
+    }
+
+    getAttribute(attributeType:AttributeType): Attribute{
+        return this.attributes.get(attributeType);
     }
 
     clearData(){

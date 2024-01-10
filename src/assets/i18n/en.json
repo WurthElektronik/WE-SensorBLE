@@ -37,7 +37,12 @@
       "showmodel": "Show Model",
       "sensorupdateinterval": "Sensor Update Interval",
       "editupdateinterval": "Edit",
-      "devicedisconnected": "Device Disconnected"
+      "devicedisconnected": "Device Disconnected",
+      "thresholds": "Thresholds",
+      "ThresholdTypes": {
+        "LowerThreshold": "Lower threshold",
+        "UpperThreshold": "Upper threshold"
+      }
     },
     "AttributeGraphTab": {
       "tabname": "Attribute Graph"
@@ -60,10 +65,22 @@
     },
     "SensorAttributes": {
       "Temperature": "Temperature",
-      "Acceleration": "Acceleration",
+      "AccelerationX": "Acceleration X",
+      "AccelerationY": "Acceleration Y",
+      "AccelerationZ": "Acceleration Z",
       "Pressure": "Pressure",
       "Humidity": "Humidity",
       "Double Tap": "Double Tap",
       "Free Fall": "Free Fall"
+    },
+    "AddThreshold": {
+      "header": "Add Threshold",
+      "cancel": "Cancel",
+      "add": "Add",
+      "thresholdplaceholder": "Threshold value"
+    },
+    "Notifications":{
+      "ThresholdExceeded": "Threshold Exceeded",
+      "ThresholdInfo": "{{attributeName}} of {{sensorName}} has exceeded the {{thresholdType}}"
     }
   }

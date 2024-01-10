@@ -33,17 +33,32 @@
           </ion-button>
         </div>
       </ion-list-header>
-      <ion-item class="ion-margin-start no-ripple" *ngFor="let attribute of sensor.getAttributes()" (click)="attributeclick(attribute)" >
-        <ion-label>
-          <span class="attrname">{{'SensorAttributes.' + attribute.getAttributeName() | translate}}</span>
-          <ion-icon class="attrgraphicon" *ngIf="attribute.isEvent() == false" name="chevron-forward-outline"></ion-icon>
-        </ion-label>
-        <ion-label *ngIf="attribute.isEvent() == false" class="itemwrapnogrow" [innerText]="attribute.getCurrentAttributeString()">
-        </ion-label>
-        <ion-radio-group *ngIf="attribute.isEvent() == true" class="itemwrapnogrow" style="pointer-events: none;" [value]="attribute.getCurrentValue().getData()">
-          <ion-radio [value]="true">
-          </ion-radio>
-        </ion-radio-group>
+      <ion-item class="ion-margin-start no-ripple" *ngFor="let attribute of sensor.getAttributes() | keyvalue" >
+        <ion-grid>
+          <ion-row class="ion-align-items-center ion-justify-content-between" (click)="attributeclick(attribute.value)">
+            <ion-label>
+              <span class="attrname">{{'SensorAttributes.' + attribute.value.getAttributeName() | translate}}</span>
+              <ion-icon class="attrgraphicon" *ngIf="attribute.value.isEvent() == false" name="chevron-forward-outline"></ion-icon>
+            </ion-label>
+            <ion-label class="ion-text-center" *ngIf="attribute.value.isEvent() == false" [innerText]="attribute.value.getCurrentAttributeString()">
+            </ion-label>
+            <ion-radio-group *ngIf="attribute.value.isEvent() == true" style="pointer-events: none;" [value]="attribute.value.getCurrentValue().getData()">
+              <ion-radio [value]="true">
+              </ion-radio>
+            </ion-radio-group>
+          </ion-row>
+          <ion-row class="ion-text-center ion-align-items-center" style="min-height: 42px;" *ngIf="attribute.value.isEvent() == false">
+            <ion-label color="medium">{{ 'FeatherWingTab.thresholds'| translate }}:</ion-label>
+            <ion-chip *ngFor="let threshold of attribute.value.getThresholds() | keyvalue">
+              <ion-label>
+                {{ 'FeatherWingTab.ThresholdTypes.' + ThresholdType[threshold.key] | translate }}
+                {{ attribute.value.getAttributeValueString(threshold.value) }}
+              </ion-label>
+              <ion-icon name="close" size="small" (click)="attribute.value.removeThreshold(threshold.key)"></ion-icon>
+            </ion-chip>
+            <ion-icon (click)="addThreshold(attribute.value)" color="primary" size="large" name="add-circle"></ion-icon>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ng-container>
   </ion-list>

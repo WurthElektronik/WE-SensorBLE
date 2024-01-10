@@ -1,5 +1,7 @@
 import { Attribute } from "./Attribute";
 import { AttributeType } from "./AttributeType";
+import { AttributeValue } from "./AttributeValue";
+import { ThresholdType } from "./ThresholdType";
 
 export class Pressure extends Attribute{
     isEvent(): Boolean {
@@ -9,14 +11,12 @@ export class Pressure extends Attribute{
     getAttributeName(): string {
         return "Pressure";
     }
-    getCurrentAttributeString(): string {
-        if(this.values.length == 0){
-            return "";
-        }
-        return (<number>this.values[this.values.length - 1].getData()).toFixed(2) + " kPa";
-    }
+    
     getAttributeType(): AttributeType {
         return AttributeType.Pressure;
     }
 
+    getAttributeValueString(attributeValue: AttributeValue): string {
+        return (<number>attributeValue.getData()).toFixed(2) + " kPa";
+    }
 }

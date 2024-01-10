@@ -6,8 +6,7 @@ import { Attribute } from 'src/app/Attributes/Attribute';
 import { BleService } from 'src/app/Services/ble.service';
 import { Subscription } from 'rxjs';
 import { AttributeType } from 'src/app/Attributes/AttributeType';
-import { AccelerationPoint } from 'src/app/Attributes/Acceleration/AccelerationPoint';
-import { AttributeValue } from 'src/app/Attributes/AttributeValue';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-attributegraph',
@@ -20,7 +19,7 @@ export class AttributeGraphTab {
   attribute:Attribute;
   lineChart: any;
 
-  constructor(private route: ActivatedRoute, public platform: Platform, private ble:BleService) {
+  constructor(private route: ActivatedRoute, public platform: Platform, private ble:BleService,private translateService: TranslateService) {
     Chart.register(...registerables);
   }
 
@@ -55,7 +54,9 @@ export class AttributeGraphTab {
       this.lineChart.data.labels.push(new Date(value.getTimestamp()).toLocaleTimeString());
     });
     switch(this.attribute.getAttributeType()){
-      case AttributeType.Acceleration:
+      case AttributeType.AccelerationX:
+      case AttributeType.AccelerationY:
+      case AttributeType.AccelerationZ:
         this.lineChart.options.scales.y.min = -2;
         this.lineChart.options.scales.y.max = 2;
         break;
@@ -121,60 +122,22 @@ export class AttributeGraphTab {
   }
 
   parsedataplot(data){
-    switch (this.attribute.getAttributeType()) {
-      case AttributeType.Acceleration:
-        let accelpoint:AccelerationPoint = data;
-        this.lineChart.data.datasets[0].data.push(accelpoint.x);
-        this.lineChart.data.datasets[1].data.push(accelpoint.y);
-        this.lineChart.data.datasets[2].data.push(accelpoint.z);
-        if(this.lineChart.data.labels.length > Attribute.maxattributevaluecount){
-          this.lineChart.data.datasets[0].data.shift();
-          this.lineChart.data.datasets[1].data.shift();
-          this.lineChart.data.datasets[2].data.shift();
-        }
-        break;
-      default:
-        this.lineChart.data.datasets[0].data.push(data);
-        if(this.lineChart.data.labels.length > Attribute.maxattributevaluecount){
-          this.lineChart.data.datasets[0].data.shift();
-        }
-        break;
+    this.lineChart.data.datasets[0].data.push(data);
+    if(this.lineChart.data.labels.length > Attribute.maxattributevaluecount){
+      this.lineChart.data.datasets[0].data.shift();
     }
   }
   createdatasets(){
-    switch(this.attribute.getAttributeType()){
-      case AttributeType.Acceleration:
-        this.lineChart.data.datasets.push(
-          {
-            label: "x",
-            data: [],
-            borderColor: 'rgba(0,0,255,1)'
-          }
-        );
-        this.lineChart.data.datasets.push(
-          {
-            label: "y",
-            data: [],
-            borderColor: 'rgba(255,0,0,1)'
-          }
-        );
-        this.lineChart.data.datasets.push(
-          {
-            label: "z",
-            data: [],
-            borderColor: 'rgba(0,255,0,1)'
-          }
-        );
-        break;
-        default:
-          this.lineChart.data.datasets.push(
-            {
-              label: this.attribute.getAttributeName(),
-              data: [],
-              borderColor: 'rgba(227,0,11,1)',
-            }
-          );
-    }
+    this.translateService.get('SensorAttributes.' + this.attribute.getAttributeName(),).subscribe(async (res:string) => 
+    {
+      this.lineChart.data.datasets.push(
+        {
+          label: res,
+          data: [],
+          borderColor: 'rgba(227,0,11,1)',
+        }
+      );
+    });
   }
 
 }

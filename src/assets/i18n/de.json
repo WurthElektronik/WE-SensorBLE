@@ -37,7 +37,12 @@
       "showmodel": "Modell anzeigen",
       "sensorupdateinterval": "Sensor Intervall",
       "editupdateinterval": "Bearbeiten",
-      "devicedisconnected": "Verbindung getrennt"
+      "devicedisconnected": "Verbindung getrennt",
+      "thresholds": "Schwellenwerte",
+      "ThresholdTypes": {
+        "LowerThreshold": "Untere Schwelle",
+        "UpperThreshold": "Obere Schwelle"
+      }
     },
     "AttributeGraphTab": {
       "tabname": "Attribut-Graph"
@@ -60,10 +65,22 @@
     },
     "SensorAttributes": {
       "Temperature": "Temperatur",
-      "Acceleration": "Beschleunigung",
+      "AccelerationX": "Beschleunigung X",
+      "AccelerationY": "Beschleunigung Y",
+      "AccelerationZ": "Beschleunigung Z",
       "Pressure": "Druck",
       "Humidity": "Luftfeuchtigkeit",
       "Double Tap": "Doppelklick",
       "Free Fall": "Freier Fall"
+    },
+    "AddThreshold": {
+      "header": "Schwellenwert hinzufügen",
+      "cancel": "Abbrechen",
+      "add": "hinzufügen",
+      "thresholdplaceholder": "Threshold value"
+    },
+    "Notifications":{
+      "ThresholdExceeded": "Schwellenwert Überschritten",
+      "ThresholdInfo": "{{attributeName}} von {{sensorName}} hat den {{thresholdType}} überschritten"
     }
   }

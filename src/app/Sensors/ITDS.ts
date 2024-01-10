@@ -1,14 +1,15 @@
 import { GeneralSensor } from "./GeneralSensor";
 import { SensorType } from "./SensorType";
 import { Attribute } from "../Attributes/Attribute";
-import { Acceleration } from "../Attributes/Acceleration/Acceleration";
-import { Temperature } from "../Attributes/Temparature";
-import { AccelerationPoint } from "../Attributes/Acceleration/AccelerationPoint";
 import { AttributeValue } from "../Attributes/AttributeValue";
 import { SensorModelInterface } from "./SensorModel/SensorModelInterface";
 import { SensorModel } from "./SensorModel/SensorModel";
 import { DoubleTap } from "../Attributes/DoubleTap";
 import { FreeFall } from "../Attributes/FreeFall";
+import { AccelerationX } from "../Attributes/Acceleration/AccelerationX";
+import { AccelerationY } from "../Attributes/Acceleration/AccelerationY";
+import { AccelerationZ } from "../Attributes/Acceleration/AccelerationZ";
+import { AttributeType } from "../Attributes/AttributeType";
 // import accelerationdata from 'recordeddata/itdsacceleration.json';
 // import temperaturedata from 'recordeddata/itdstemperature.json';
 
@@ -20,7 +21,13 @@ export class ITDS extends GeneralSensor implements SensorModelInterface{
     
     constructor(){
         super();
-        this.attributes = [new Acceleration(this),new DoubleTap(this),new FreeFall(this)];
+        this.attributes = new Map<AttributeType, Attribute>([
+            [AttributeType.AccelerationX, new AccelerationX(this)],
+            [AttributeType.AccelerationY, new AccelerationY(this)],
+            [AttributeType.AccelerationZ, new AccelerationZ(this)],
+            [AttributeType.DoubleTap, new DoubleTap(this)],
+            [AttributeType.FreeFall, new FreeFall(this)],
+        ]);
         // accelerationdata.forEach(accel => {
         //     this.attributes[0].addValue(new AttributeValue(accel.timestamp,new AccelerationPoint(accel.data.x,accel.data.y,accel.data.z)));
         // });  
@@ -35,34 +42,23 @@ export class ITDS extends GeneralSensor implements SensorModelInterface{
         return SensorType.ITDS;
     }
 
-    getAccelerationAttribute(): Attribute {
-        return this.attributes[0];
-    }
-    
-    getDoubleTapAttribute(): Attribute {
-        return this.attributes[1];
-    }
-
-    getFreeFallAttribute(): Attribute {
-        return this.attributes[2];
-    }
-
     getSensorName(): string {
         return "ITDS";
     }
 
     parsedata(itdsdata:DataView,offset:number){
         let timestamp:number = Date.now();
-        let newaccelpoint:AccelerationPoint = new AccelerationPoint(itdsdata.getInt32(offset,true)/1000.0,itdsdata.getInt32(offset+4,true)/1000.0,itdsdata.getInt32(offset+8,true)/1000.0);
-        this.getAccelerationAttribute().addValue(new AttributeValue(timestamp,newaccelpoint));
+        this.getAttribute(AttributeType.AccelerationX).addValue(new AttributeValue(timestamp,itdsdata.getInt32(offset,true)/1000.0));
+        this.getAttribute(AttributeType.AccelerationY).addValue(new AttributeValue(timestamp,itdsdata.getInt32(offset+4,true)/1000.0));
+        this.getAttribute(AttributeType.AccelerationZ).addValue(new AttributeValue(timestamp,itdsdata.getInt32(offset+8,true)/1000.0));
     }
 
     parsedoubletap(){
-        this.getDoubleTapAttribute().informevent();
+        this.getAttribute(AttributeType.DoubleTap).informevent();
     }
 
     parsefreefall(){
-        this.getFreeFallAttribute().informevent();
+        this.getAttribute(AttributeType.FreeFall).informevent();
     }
 
     createModel() {
