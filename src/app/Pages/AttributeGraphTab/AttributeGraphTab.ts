@@ -7,6 +7,8 @@ import { BleService } from 'src/app/Services/ble.service';
 import { Subscription } from 'rxjs';
 import { AttributeType } from 'src/app/Attributes/AttributeType';
 import { TranslateService } from '@ngx-translate/core';
+import { GeneralSensor } from 'src/app/Sensors/GeneralSensor';
+import { SensorType } from 'src/app/Sensors/SensorType';
 
 @Component({
   selector: 'app-attributegraph',
@@ -15,8 +17,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AttributeGraphTab {
   @ViewChild('chart') lineCanvas;
-  private attributedataReceivedSubscription: Subscription;
-  attribute:Attribute;
+  private sensordataReceivedSubscription: Subscription;
+  sensor:GeneralSensor;
+  attributes:Attribute[];
   lineChart: any;
 
   constructor(private route: ActivatedRoute, public platform: Platform, private ble:BleService,private translateService: TranslateService) {
@@ -26,14 +29,15 @@ export class AttributeGraphTab {
   ngOnInit(){
     this.route.queryParamMap
     .subscribe(async (params) => {
+        this.attributes = [];
+        this.sensor = undefined;
         let sensortype = Number(params.get("sensortype"));
-        let attributetype = Number(params.get("attributetype"));
         this.ble.sensors.forEach(sensor => {
           if(sensor.getType() == sensortype){
-            sensor.getAttributes().forEach(attribute => {
-              if(attribute.getAttributeType() == attributetype){
-                this.attribute = attribute;
-              }
+            this.sensor = sensor;
+            let attributeTypes = JSON.parse(params.get("attributetypes"));
+            attributeTypes.forEach(attributeType => {
+              this.attributes.push(sensor.getAttribute(attributeType));
             });
           }
         });
@@ -49,14 +53,19 @@ export class AttributeGraphTab {
       this.lineChart.data.datasets = [];
       this.createdatasets();
     }
-    this.attribute.getValues().forEach(value => {
-      this.parsedataplot(value.getData());
-      this.lineChart.data.labels.push(new Date(value.getTimestamp()).toLocaleTimeString());
+
+    this.attributes.forEach((attribute, i) => {
+      attribute.getValues().forEach( value => {
+        if(i == 0)
+        {
+          this.lineChart.data.labels.push(new Date(value.getTimestamp()).toLocaleTimeString());
+        }
+        this.parsedataplot(value.getData(),i);
+      });
     });
-    switch(this.attribute.getAttributeType()){
-      case AttributeType.AccelerationX:
-      case AttributeType.AccelerationY:
-      case AttributeType.AccelerationZ:
+
+    switch(this.sensor.getType()){
+      case SensorType.ITDS:
         this.lineChart.options.scales.y.min = -2;
         this.lineChart.options.scales.y.max = 2;
         break;
@@ -66,10 +75,12 @@ export class AttributeGraphTab {
         break;
     }
     this.lineChart.update();
-    this.attributedataReceivedSubscription = this.attribute.onDataReceived.subscribe(() => {
+    this.sensordataReceivedSubscription = this.sensor.onDataReceived.subscribe(() => {
       if(this.lineChart){
-        this.lineChart.data.labels.push(new Date(this.attribute.getCurrentValue().getTimestamp()).toLocaleTimeString());
-        this.parsedataplot(this.attribute.getCurrentValue().getData());
+        this.lineChart.data.labels.push(new Date(this.attributes[0].getCurrentValue().getTimestamp()).toLocaleTimeString());
+        this.attributes.forEach((attribute, i) => {
+          this.parsedataplot(attribute.getCurrentValue().getData(),i);
+        })
         if(this.lineChart.data.labels.length > Attribute.maxattributevaluecount){
           this.lineChart.data.labels.shift();
         }
@@ -79,7 +90,7 @@ export class AttributeGraphTab {
   }
 
   ionViewWillLeave() {
-    this.attributedataReceivedSubscription && this.attributedataReceivedSubscription.unsubscribe();
+    this.sensordataReceivedSubscription && this.sensordataReceivedSubscription.unsubscribe();
   }
 
   createlinechart() {
@@ -121,22 +132,30 @@ export class AttributeGraphTab {
     });
   }
 
-  parsedataplot(data){
-    this.lineChart.data.datasets[0].data.push(data);
+  parsedataplot(data, i){
+    this.lineChart.data.datasets[i].data.push(data);
     if(this.lineChart.data.labels.length > Attribute.maxattributevaluecount){
-      this.lineChart.data.datasets[0].data.shift();
+      this.lineChart.data.datasets[i].data.shift();
     }
   }
   createdatasets(){
-    this.translateService.get('SensorAttributes.' + this.attribute.getAttributeName(),).subscribe(async (res:string) => 
-    {
-      this.lineChart.data.datasets.push(
-        {
-          label: res,
-          data: [],
-          borderColor: 'rgba(227,0,11,1)',
-        }
-      );
+    let colors = [
+      'rgba(227,0,11,1)',
+      'rgba(0,0,255,1)',
+      'rgba(0,255,0,1)',
+      'rgba(64,64,64,1)',
+    ];
+    this.attributes.forEach((attribute, i) => {
+      this.translateService.get('SensorAttributes.' + attribute.getAttributeName()).subscribe(async (res:string) => 
+      {
+        this.lineChart.data.datasets.push(
+          {
+            label: res,
+            data: [],
+            borderColor: colors[i % colors.length],
+          }
+        );
+      });
     });
   }
 

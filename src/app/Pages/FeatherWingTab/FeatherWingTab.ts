@@ -142,11 +142,32 @@ export class FeatherWingTab {
         { 
           queryParams: { 
             sensortype: attribute.getParentsensor().getType(),
-            attributetype: attribute.getAttributeType()
+            attributetypes: JSON.stringify([attribute.getAttributeType()])
           }
         }
       );
     }
+  }
+
+  allattributesclick(sensor:GeneralSensor){
+    var attributes = Array.from(sensor.getAttributes().values());
+    attributes = attributes.filter((attribute) => attribute.isEvent() == false);
+    if(attributes.length == 0)
+    {
+      return;
+    }
+
+    let attributeTypes = attributes.map(attribute => attribute.getAttributeType());
+
+    this.router.navigate(
+      ['/tabs/attributegraph'],
+      { 
+        queryParams: { 
+          sensortype: sensor.getType(),
+          attributetypes: JSON.stringify(attributeTypes)
+        }
+      }
+    );
   }
 
   async editinterval(sensor:GeneralSensor){

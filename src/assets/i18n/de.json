@@ -38,6 +38,7 @@
       "sensorupdateinterval": "Sensor Intervall",
       "editupdateinterval": "Bearbeiten",
       "devicedisconnected": "Verbindung getrennt",
+      "graphallattributes": "Alle Attribute grafisch darstellen",
       "thresholds": "Schwellenwerte",
       "ThresholdTypes": {
         "LowerThreshold": "Untere Schwelle",

@@ -38,6 +38,7 @@
       "sensorupdateinterval": "Sensor Update Interval",
       "editupdateinterval": "Edit",
       "devicedisconnected": "Device Disconnected",
+      "graphallattributes": "Graph all attributes",
       "thresholds": "Thresholds",
       "ThresholdTypes": {
         "LowerThreshold": "Lower threshold",

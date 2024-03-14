@@ -32,6 +32,12 @@
             {{ 'FeatherWingTab.editupdateinterval' | translate }}
           </ion-button>
         </div>
+        <div class="ion-margin-start seperateitems" style="padding: 5px;" (click)="allattributesclick(sensor)">
+          <ion-label>
+            <span class="attrname">{{ 'FeatherWingTab.graphallattributes' | translate }}</span>
+            <ion-icon class="attrgraphicon" name="chevron-forward-outline"></ion-icon>
+          </ion-label>
+        </div>
       </ion-list-header>
       <ion-item class="ion-margin-start no-ripple" *ngFor="let attribute of sensor.getAttributes() | keyvalue" >
         <ion-grid>

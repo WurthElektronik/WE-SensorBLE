@@ -31,6 +31,7 @@ export class TIDS extends GeneralSensor{
     parsedata(tidsdata:DataView,offset:number){
         let timestamp:number = Date.now();
         this.getAttribute(AttributeType.Temperature).addValue(new AttributeValue(timestamp,tidsdata.getInt32(offset,true)/100.0));
+        this.onDataReceived.next();
       }
     
 }

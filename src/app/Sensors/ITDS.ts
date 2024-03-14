@@ -10,6 +10,7 @@ import { AccelerationX } from "../Attributes/Acceleration/AccelerationX";
 import { AccelerationY } from "../Attributes/Acceleration/AccelerationY";
 import { AccelerationZ } from "../Attributes/Acceleration/AccelerationZ";
 import { AttributeType } from "../Attributes/AttributeType";
+import { Subject } from "rxjs";
 // import accelerationdata from 'recordeddata/itdsacceleration.json';
 // import temperaturedata from 'recordeddata/itdstemperature.json';
 
@@ -36,6 +37,7 @@ export class ITDS extends GeneralSensor implements SensorModelInterface{
         // });
         //this.attributes[2].addValue(new AttributeValue(1,true));
         this.createModel();
+        this.onEventReceived = new Subject<any>();
     }
 
     getType(): SensorType {
@@ -51,14 +53,17 @@ export class ITDS extends GeneralSensor implements SensorModelInterface{
         this.getAttribute(AttributeType.AccelerationX).addValue(new AttributeValue(timestamp,itdsdata.getInt32(offset,true)/1000.0));
         this.getAttribute(AttributeType.AccelerationY).addValue(new AttributeValue(timestamp,itdsdata.getInt32(offset+4,true)/1000.0));
         this.getAttribute(AttributeType.AccelerationZ).addValue(new AttributeValue(timestamp,itdsdata.getInt32(offset+8,true)/1000.0));
+        this.onDataReceived.next();
     }
 
     parsedoubletap(){
         this.getAttribute(AttributeType.DoubleTap).informevent();
+        this.onEventReceived.next();
     }
 
     parsefreefall(){
         this.getAttribute(AttributeType.FreeFall).informevent();
+        this.onEventReceived.next();
     }
 
     createModel() {

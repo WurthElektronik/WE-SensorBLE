@@ -1,3 +1,4 @@
+import { Subject } from "rxjs";
 import { Attribute } from "../Attributes/Attribute";
 import { AttributeType } from "../Attributes/AttributeType";
 import { SensorType } from "./SensorType";
@@ -7,6 +8,8 @@ export abstract class GeneralSensor{
     protected updateinterval:number;
     protected abstract minupdateinterval:number;
     protected abstract tempaccuracy:number;
+    public onDataReceived: Subject<any> = new Subject<any>();
+    public onEventReceived: Subject<any> = undefined;
     constructor(){
 
     }

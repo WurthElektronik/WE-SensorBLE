@@ -38,6 +38,7 @@ export class PADS extends GeneralSensor{
         let timestamp:number = Date.now();
         this.getAttribute(AttributeType.Pressure).addValue(new AttributeValue(timestamp,padsdata.getInt32(offset,true)/100.0));
         this.getAttribute(AttributeType.Temperature).addValue(new AttributeValue(timestamp,padsdata.getInt32(offset+4,true)/100.0));
-      }
+        this.onDataReceived.next();
+    }
     
 }

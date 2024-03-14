@@ -38,6 +38,7 @@ export class HIDS extends GeneralSensor{
         let timestamp:number = Date.now();
         this.getAttribute(AttributeType.Humidity).addValue(new AttributeValue(timestamp,hidsdata.getInt32(offset,true)/100.0));
         this.getAttribute(AttributeType.Temperature).addValue(new AttributeValue(timestamp,hidsdata.getInt32(offset+4,true)/100.0));
+        this.onDataReceived.next();
       }
     
 }

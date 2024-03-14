@@ -9,10 +9,10 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content class="ion-padding-top">
   <div class="flexholder">
-    <ion-label class="sensorname ion-margin-start" >{{attribute.getParentsensor().getSensorName()}} {{'SensorAttributes.' + attribute.getAttributeName()| translate}}</ion-label>
+    <ion-label class="sensorname ion-margin-start" *ngIf="attributes.length == 1">{{sensor.getSensorName()}} {{'SensorAttributes.' + attributes[0].getAttributeName() | translate}}</ion-label>
+    <ion-label class="sensorname ion-margin-start" *ngIf="attributes.length != 1">{{sensor.getSensorName()}}</ion-label>
     <div class="chartholder">
       <canvas #chart></canvas>
     </div>
