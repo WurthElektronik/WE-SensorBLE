@@ -1,0 +1,87 @@
+{
+    "ScanTab": {
+      "tabname": "Scan",
+      "startscantext": "Scan",
+      "stopscantext": "Stop Scanning",
+      "connecting": "Connecting"
+    },
+    "InfoTab": {
+      "tabname": "Info",
+      "informationsection": {
+        "informationheader": "Information",
+        "version": "Version",
+        "language": "Language",
+        "selectedlanguage": "English",
+        "policy": "Privacy Policy",
+        "imprint": "Imprint"
+      },
+      "linksection": {
+        "linksheader": "Links",
+        "wirelessconnectivityandsensors": "Wireless Connectivity and Sensors",
+        "usermanuals": "User Manuals",
+        "sourcecode": "Source Code"
+      }
+    },
+    "Imprint":{
+      "tabname": "Imprint"
+    },
+    "Policy":{
+      "tabname": "Privacy Policy"
+    },
+    "SensorModelTab": {
+      "tabname": "Sensor Model",
+      "lowpassfilter": "Low Pass Filter",
+      "offset": "Top View"
+    },
+    "FeatherWingTab": {
+      "showmodel": "Show Model",
+      "sensorupdateinterval": "Sensor Update Interval",
+      "editupdateinterval": "Edit",
+      "devicedisconnected": "Device Disconnected",
+      "graphallattributes": "Graph all attributes",
+      "thresholds": "Thresholds",
+      "ThresholdTypes": {
+        "LowerThreshold": "Lower threshold",
+        "UpperThreshold": "Upper threshold"
+      }
+    },
+    "AttributeGraphTab": {
+      "tabname": "Attribute Graph"
+    },
+    "EditUpdateRate": {
+      "header": "Edit Update Rate",
+      "cancel": "Cancel",
+      "edit": "Okay",
+      "updaterateplaceholder": "New Update Rate in ms",
+      "invalidupdaterate": "Invalid Update Rate (must be >= {{mininterval}} ms)"
+    },
+    "ChangeLanguage": {
+      "header": "Change Language",
+      "English": "English",
+      "German": "German"
+    },
+    "Tabs":{
+      "scan": "Scan",
+      "info": "Info"
+    },
+    "SensorAttributes": {
+      "Temperature": "Temperature",
+      "AccelerationX": "Acceleration X",
+      "AccelerationY": "Acceleration Y",
+      "AccelerationZ": "Acceleration Z",
+      "Pressure": "Pressure",
+      "Humidity": "Humidity",
+      "Double Tap": "Double Tap",
+      "Free Fall": "Free Fall"
+    },
+    "AddThreshold": {
+      "header": "Add Threshold",
+      "cancel": "Cancel",
+      "add": "Add",
+      "thresholdplaceholder": "Threshold value"
+    },
+    "Notifications":{
+      "ThresholdExceeded": "Threshold Exceeded",
+      "ThresholdInfo": "{{attributeName}} of {{sensorName}} has exceeded the {{thresholdType}}"
+    }
+  }

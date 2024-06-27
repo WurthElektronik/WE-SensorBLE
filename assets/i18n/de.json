@@ -1,0 +1,87 @@
+{
+    "ScanTab": {
+      "tabname": "Scannen",
+      "startscantext": "Scannen",
+      "stopscantext": "Scannen beenden",
+      "connecting": "Verbinden"
+    },
+    "InfoTab": {
+      "tabname": "Info",
+      "informationsection": {
+        "informationheader": "Informationen",
+        "version": "Version",
+        "language": "Sprache",
+        "selectedlanguage": "Deutsch",
+        "policy": "Datenschutz",
+        "imprint": "Impressum"
+      },
+      "linksection": {
+        "linksheader": "Links",
+        "wirelessconnectivityandsensors": "Wireless Connectivity and Sensors",
+        "usermanuals": "Benutzerhandbücher",
+        "sourcecode": "Quellcode"
+      }
+    },
+    "Imprint":{
+      "tabname": "Impressum"
+    },
+    "Policy":{
+      "tabname": "Datenschutz"
+    },
+    "SensorModelTab": {
+      "tabname": "Sensor-Modell",
+      "lowpassfilter": "Tiefpassfilter",
+      "offset": "Draufsicht"
+    },
+    "FeatherWingTab": {
+      "showmodel": "Modell anzeigen",
+      "sensorupdateinterval": "Sensor Intervall",
+      "editupdateinterval": "Bearbeiten",
+      "devicedisconnected": "Verbindung getrennt",
+      "graphallattributes": "Alle Attribute grafisch darstellen",
+      "thresholds": "Schwellenwerte",
+      "ThresholdTypes": {
+        "LowerThreshold": "Untere Schwelle",
+        "UpperThreshold": "Obere Schwelle"
+      }
+    },
+    "AttributeGraphTab": {
+      "tabname": "Attribut-Graph"
+    },
+    "EditUpdateRate": {
+      "header": "Aktualisierungsrate bearbeiten",
+      "cancel": "Abbrechen",
+      "edit": "Okay",
+      "updaterateplaceholder": "Neue Aktualisierungsrate in ms",
+      "invalidupdaterate": "Ungültige Aktualisierungsrate (muss >= {{mininterval}} ms sein)"
+    },
+    "ChangeLanguage": {
+      "header": "Sprache ändern",
+      "English": "Englisch",
+      "German": "Deutsch"
+    },
+    "Tabs":{
+      "scan": "Scannen",
+      "info": "Info"
+    },
+    "SensorAttributes": {
+      "Temperature": "Temperatur",
+      "AccelerationX": "Beschleunigung X",
+      "AccelerationY": "Beschleunigung Y",
+      "AccelerationZ": "Beschleunigung Z",
+      "Pressure": "Druck",
+      "Humidity": "Luftfeuchtigkeit",
+      "Double Tap": "Doppelklick",
+      "Free Fall": "Freier Fall"
+    },
+    "AddThreshold": {
+      "header": "Schwellenwert hinzufügen",
+      "cancel": "Abbrechen",
+      "add": "hinzufügen",
+      "thresholdplaceholder": "Threshold value"
+    },
+    "Notifications":{
+      "ThresholdExceeded": "Schwellenwert Überschritten",
+      "ThresholdInfo": "{{attributeName}} von {{sensorName}} hat den {{thresholdType}} überschritten"
+    }
+  }
