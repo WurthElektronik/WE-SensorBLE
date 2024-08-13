@@ -9,6 +9,8 @@ Corresponding Feather M0 firmware can be found in the Sensor2BLE project inside 
 
 The released "WE-SensorBLE" Apps can be downloaded from the App stores of Apple and Google.
 
+The Web App is available here : https://wurthelektronik.github.io/WE-SensorBLE/
+
 ## Requirements
 
 Before starting or using the Project make sure all requirements and dependencies are resolved.
@@ -32,6 +34,13 @@ which will install all dependencies listed in package.json and also install the 
 
 For other ways to install Capacitor Framework by Ionic, refer to https://capacitorjs.com/. Please note that following alternative instructions may not install required dependencies.
 
+### Generating Progressive Web App
+
+Run the following
+```
+ionic build
+```
+The built Web App is in /www
 
 ### Generating native Projects
 
