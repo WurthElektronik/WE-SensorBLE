@@ -301,7 +301,7 @@ export class WebglService {
     this.gl.uniformMatrix4fv(
       this.programInfo.uniformLocations.matrix,
       false,
-      this.productmatrix
+      this.productmatrix as Float32Array
     );
   }
 

@@ -2,5 +2,23 @@
 	"appId": "com.eisos.wesensorble",
 	"appName": "WE-SensorBLE",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"plugins": {
+		"Keyboard": {
+			"resizeOnFullScreen": false
+		},
+		"EdgeToEdge": {
+			"backgroundColor": "#e3000b"
+		}
+	},
+	"packageClassList": [
+		"BluetoothLe",
+		"AppPlugin",
+		"CAPBrowserPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"LocalNotificationsPlugin",
+		"PreferencesPlugin",
+		"StatusBarPlugin",
+		"CDVPlugin"
+	]
 }
